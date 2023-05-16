@@ -9,13 +9,32 @@ let input = fs
   .split("");
 
 let answer = input.sort();
+let str = "";
+let result = "";
+let strObj = {};
+let max = 0;
 
-let count = []        
-for(let i  = 0; i < answer.length; i++) {
-  let str = answer[i]
-  if(str == answer[i]){
-    count += 1
-    if (count > realCount) {}
+for (let i = 0; i < answer.length; i++) {
+  let cunStr = answer[i];
+  if (str == answer[i]) {
+    count += 1;
+    strObj[str] = count;
+  } else {
+    str = cunStr;
+    count = 1;
+    strObj[str] = count;
   }
-  if (){}
 }
+
+for (let key in strObj) {
+  if (strObj[key] == max) {
+    max = strObj[key];
+    result = "?";
+  }
+  if (strObj[key] > max) {
+    max = strObj[key];
+    result = key;
+  }
+}
+
+console.log(result);
