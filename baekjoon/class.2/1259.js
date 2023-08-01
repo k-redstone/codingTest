@@ -1,20 +1,28 @@
-// let input = fs.readFileSync("/dev/stdin").toString();
+// let input = require("fs").readFileSync("/dev/stdin").toString().trim().split("\n");;
 let input = require("fs")
   .readFileSync("data.txt")
   .toString()
   .trim()
-  .split("\n");
+  .split("\r\n");
 
-let check = false;
-for (let i = 0; i < input.length - 1; i++) {
-  let arr = input[i].split("");
-  if (arr.length % 2 !== 0) {
-    for (let j = 0; j < arr.length; j++) {
-      if (arr[j] == arr[arr.length - i]) {
-        check = true;
-      }
+let check = true;
+let num = 0;
+input.pop();
+
+for (let i = 0; i < input.length; i++) {
+  let test = input[i].split("");
+  test.length % 2 === 0
+    ? (num = test.length / 2)
+    : (num = Math.floor(test.length / 2) + 1);
+  for (let j = 0; j < num; j++) {
+    test[j] === test[test.length - j - 1] ? (check = true) : (check = false);
+    if (check === false) {
+      break;
     }
-  } else {
+  }
+  if (check === false) {
     console.log("no");
+  } else {
+    console.log("yes");
   }
 }
