@@ -29,18 +29,12 @@ def find_group():
         pop_value = stack.pop()
         case_dict[pop_value] = True
         x,y = pop_value
-        print(f'기준점 {x, y}')
         for num in range(4):
-            if valid_N(x + dx[num]) and valid_M(y + dy[num]):
-                col_x = x + dx[num]
-                col_y = y + dy[num]
-                print(col_x, col_y)
+            col_x = x + dx[num]
+            col_y = y + dy[num]
+            if valid_M(col_x) and valid_N(col_y):
                 if case_dict.get((col_x, col_y)) is False:
                     stack.append((col_x, col_y))
-                    print("스택넣기")
-            print('상하좌우')
-        print(stack)
-        print(case_dict)
         num += 1
     return 1
 
@@ -61,6 +55,4 @@ for _ in range(T):
         else:
             stack.append(key)
             group_count += find_group()
-            print(f"{key} 뭔가 진행됨")
-        print()
-    print(f'#{_ +1} {group_count}')
+    print(f'{group_count}')
