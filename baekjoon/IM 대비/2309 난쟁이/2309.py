@@ -13,5 +13,4 @@ who = itertools.combinations(p_list, 7)
 for item in who:
     if sum(item) == 100:
         print(*item, sep="\n")
-        
         break
