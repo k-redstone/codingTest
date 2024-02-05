@@ -1,31 +1,32 @@
 import sys
-sys.stdin = open("data.txt", "r")
+sys.stdin = open("./baekjoon/IM 대비/2564 경비원/input.txt", "r")
 
 M, N = map(int, sys.stdin.readline().rstrip().split())
 store = int(sys.stdin.readline().rstrip())
 store_position = [ tuple(map(int, sys.stdin.readline().rstrip().split())) for _ in range(store)]
 player_position = tuple(map(int,sys.stdin.readline().rstrip().split()))
-# 4 -> 동
-# 3 -> 서
-# 2 -> 남
-# 1 -> 북
 
-def convert(data):
-    if data[0] == 4:
-        return (M, data[1])
-    if data[0] == 3:
-        return (0, data[1])
-    if data[0] == 2:
-        return (data[1], N)
+def dis(data):
     if data[0] == 1:
-        return (data[1], 0)
+        return data[1]
+    if data[0] == 4:
+        return M + data[1]
+    if data[0] == 2:
+        return M+M+N-data[1]
+    if data[0] == 3:
+        return 2*(M + N) - data[1]
+    
+
+def solution(data):
+    store_dis = dis(data)
+    first_way = abs(store_dis - player_dis)
+    second_way = 2*(M+N) - first_way
+    return min(first_way, second_way)
 
 
-convert_list = []
-for postion in store_position:
-    convert_list.append(convert(postion))
-player_position = convert(player_position)
+player_dis = dis(player_position)
+result = 0
+for store in store_position:
+    result += solution(store)
 
-print(convert_list)
-print(player_position)
-# for item in convert_list:
+print(result)
