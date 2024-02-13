@@ -8,6 +8,7 @@ case_list = [list(map(int, input().split())) for _ in range(N)]
 d_row = [0, 0, -1, 1]
 d_col = [-1, 1, 0, 0]
 que = deque()
+max_cnt = 0
 
 for row in range(N):
     for col in range(M):
@@ -24,9 +25,11 @@ def rare_tomato(Q):
                 if case_list[new_row][new_col] == 0:
                     case_list[new_row][new_col] = case_list[item[0]][item[1]] + 1
                     Q.append((new_row, new_col))
-    return que
-matrix = rare_tomato(que)
 
-
-
-print(cnt)
+rare_tomato(que)
+for row in range(N):
+    if 0 in case_list[row]:
+        max_cnt = 0
+        break
+    max_cnt = max(max(case_list[row]), max_cnt)
+print(max_cnt-1)
