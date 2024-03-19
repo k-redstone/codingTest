@@ -1,17 +1,22 @@
 import sys
 input = sys.stdin.readline
 
+def solution(n, arr):
+    if n == 1:
+        return arr[0]
+    if n == 2:
+        return arr[0]+arr[1]
+    dp = [0]*n
+    dp[0] = arr[0]
+    dp[1] = arr[0]+arr[1]
+    dp[2] = max(arr[0] + arr[2], arr[1] + arr[2])
+
+    for idx in range(3, n):
+        dp[idx] = max(dp[idx-2] + arr[idx], dp[idx-3] + arr[idx-1] + arr[idx])
+    return dp[n-1]
+
 N = int(input())
-
 case_list = [int(input()) for _ in range(N)]
-dp = [( case_list[i] ,0) for i in range(N)]
-print(dp)
 
-for num in range(N-1, 1, -1):
-    # 4
-    if dp[num-1][1] == 1:
-        dp[num-1] = (max(dp[num-1][0], dp[num][0] + case_list[num-1]), 1)
-    dp[num-2] = (max(dp[num-2][0], dp[num][0] + case_list[num-2]), 0)
-
-    print(num, dp)
-    # print('df', dp[num-1], dp[num-2])
+result = solution(N, case_list)
+print(result)
