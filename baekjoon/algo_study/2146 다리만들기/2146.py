@@ -8,14 +8,16 @@ def get_island():
     for row in range(N):
         for col in range(N):
             if case_matrix[row][col] == 1:
-                case_matrix[row][col] = (0, idx)
+                visited[row][col] = -1
+                case_matrix[row][col] = idx
                 Q_is.append((row,col))
                 while Q_is:
                     row, col = Q_is.popleft()
                     for n_row, n_col in [(row+1, col), (row-1, col), (row, col+1), (row, col-1)]:
                         if 0 <= n_row < N and 0 <= n_col < N:
                             if case_matrix[n_row][n_col] == 1:
-                                case_matrix[n_row][n_col] = (0, idx)
+                                visited[n_row][n_col] = -1
+                                case_matrix[n_row][n_col] = idx
                                 Q_is.append((n_row, n_col))
                 idx +=1
 
@@ -23,29 +25,26 @@ def solution():
     Q = deque()
     for row in range(N):
         for col in range(N):
-            if case_matrix[row][col] != 0:
-                Q.append((row, col, case_matrix[row][col][0], case_matrix[row][col][1]))
-    if len(Q) == 0:
-        return 0
+            if visited[row][col] == -1:
+                Q.append((row, col, 0, case_matrix[row][col]))
     ans = 10000
     while Q:
         row, col, dist, island = Q.popleft()
         for n_row, n_col in [(row+1, col), (row-1, col), (row, col+1), (row, col-1)]:
             if 0 <= n_row < N and 0 <= n_col < N:
-                if case_matrix[n_row][n_col] != 0:
-                    if case_matrix[n_row][n_col][1] == case_matrix[row][col][1]: 
+                if visited[n_row][n_col] != 0 and visited[n_row][n_col] != -1:
+                    if case_matrix[n_row][n_col] == island: 
                         continue
-                    ans = min(ans, case_matrix[n_row][n_col][0] + case_matrix[row][col][0])
+                    ans = min(ans, visited[n_row][n_col] + dist)
                 else:
-                    print(case_matrix[row][col])
-                    print(case_matrix[n_row][n_col])
-                    case_matrix[n_row][n_col] = (dist+1, island)
-                    print(case_matrix)
-                    Q.append((n_row, n_col, case_matrix[n_row][n_col][0], case_matrix[n_row][n_col][1]))
+                    case_matrix[n_row][n_col] = island
+                    visited[n_row][n_col] = dist+1
+                    Q.append((n_row, n_col, visited[n_row][n_col], island))
     return ans
 
 
 N = int(input())
 case_matrix = [list(map(int, input().split())) for _ in range(N)]
+visited = [[0]*N for _ in range(N)] 
 get_island()
 print(solution())
