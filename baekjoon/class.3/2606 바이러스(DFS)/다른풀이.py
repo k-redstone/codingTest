@@ -1,8 +1,4 @@
-import sys
-sys.stdin = open("data.txt", "r")
-
-com=int(input())
-graph=[[] for i in range(com+1)]
+import sys range(com+1)]
 print(graph)
 num=int(input())
 for i in range(num):
